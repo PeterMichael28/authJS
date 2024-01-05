@@ -1,49 +1,18 @@
-"use client";
+import { CheckCircledIcon } from "@radix-ui/react-icons";
 
-import { 
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader
-} from "@/components/ui/card";
-import { Header } from "@/components/auth/header";
-import { Social } from "@/components/auth/social";
-import { BackButton } from "@/components/auth/back-button";
-
-interface CardWrapperProps {
-  children: React.ReactNode;
-  headerLabel: string;
-  backButtonLabel: string;
-  backButtonHref: string;
-  showSocial?: boolean;
+interface FormSuccessProps {
+  message?: string;
 };
 
-export const CardWrapper = ({
-  children,
-  headerLabel,
-  backButtonLabel,
-  backButtonHref,
-  showSocial
-}: CardWrapperProps) => {
+export const FormSuccess = ({
+  message,
+}: FormSuccessProps) => {
+  if (!message) return null;
+
   return (
-    <Card className="w-[400px] shadow-md">
-      <CardHeader>
-        <Header label={headerLabel} />
-      </CardHeader>
-      <CardContent>
-        {children}
-      </CardContent>
-      {showSocial && (
-        <CardFooter>
-          <Social />
-        </CardFooter>
-      )}
-      <CardFooter>
-        <BackButton
-          label={backButtonLabel}
-          href={backButtonHref}
-        />
-      </CardFooter>
-    </Card>
+    <div className="bg-emerald-500/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-emerald-500">
+      <CheckCircledIcon className="h-4 w-4" />
+      <p>{message}</p>
+    </div>
   );
 };
