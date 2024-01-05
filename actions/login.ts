@@ -1,3 +1,4 @@
+
 "use server";
 
 import * as z from "zod";
@@ -6,7 +7,6 @@ import { AuthError } from "next-auth";
 import { db } from "@/lib/db";
 import { signIn } from "@/auth";
 import { LoginSchema } from "@/schemas";
-import { getTwoFactorTokenByEmail } from "@/data/two-factor-token";
 import { 
   sendVerificationEmail,
   sendTwoFactorTokenEmail,
@@ -16,9 +16,9 @@ import {
   generateVerificationToken,
   generateTwoFactorToken
 } from "@/lib/tokens";
-import { 
-  getTwoFactorConfirmationByUserId
-} from "@/data/two-factor-confirmation";
+import { getUserByEmail } from "@/services/user-service";
+import { getTwoFactorTokenByEmail } from "@/services/two-factor-token-service";
+import { getTwoFactorConfirmationByUserId } from "@/services/two-factor-confirmation-service";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
@@ -49,7 +49,8 @@ export const login = async (
     );
 
     return { success: "Confirmation email sent!" };
-  }
+    }
+    
 
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
     if (code) {
