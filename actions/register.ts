@@ -1,7 +1,7 @@
 "use server";
 
 import * as z from "zod";
-import bcrypt from "bcryptjs";
+import bcrypt from "npx prisma generate";
 
 import { db } from "@/lib/db";
 import { RegisterSchema } from "@/schemas";
