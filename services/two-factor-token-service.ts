@@ -5,7 +5,7 @@ export const getTwoFactorTokenByToken = async (token: string) => {
     const twoFactorToken = await db.twoFactorToken.findUnique({
       where: { token }
     });
-
+// console.log(twoFactorToken)
     return twoFactorToken;
   } catch {
     return null;

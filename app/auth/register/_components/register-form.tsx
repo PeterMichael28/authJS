@@ -19,6 +19,9 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { FormSuccess } from "@/components/form-success";
+import { CardWrapper } from "../../_components/card-wrapper";
+import { FormError } from "@/components/form-error";
+import { register } from "@/actions/register";
 
 
 export const RegisterForm = () => {

@@ -8,6 +8,8 @@ export const getTwoFactorConfirmationByUserId = async (
       where: { userId }
     });
 
+
+    // console.log(twoFactorConfirmation)
     return twoFactorConfirmation;
   } catch {
     return null;

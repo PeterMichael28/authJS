@@ -26,6 +26,8 @@ export const settings = async (
     return { error: "Unauthorized" }
   }
 
+
+//   if user is using oauth
   if (user.isOAuth) {
     values.email = undefined;
     values.password = undefined;
@@ -33,6 +35,8 @@ export const settings = async (
     values.isTwoFactorEnabled = undefined;
   }
 
+
+ //   changing email
   if (values.email && values.email !== user.email) {
     const existingUser = await getUserByEmail(values.email);
 
@@ -51,6 +55,8 @@ export const settings = async (
     return { success: "Verification email sent!" };
   }
 
+
+//   changing password
   if (values.password && values.newPassword && dbUser.password) {
     const passwordsMatch = await bcrypt.compare(
       values.password,
@@ -76,6 +82,7 @@ export const settings = async (
     }
   });
 
+    
   update({
     user: {
       name: updatedUser.name,

@@ -24,20 +24,24 @@ export const login = async (
   values: z.infer<typeof LoginSchema>,
   callbackUrl?: string | null,
 ) => {
+  // Validate the input data
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
 
+  // getting data
   const { email, password, code } = validatedFields.data;
 
+  // if user exists
   const existingUser = await getUserByEmail(email);
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Email does not exist!" }
   }
-
+ 
+  // check if email is  not verified and if  not, send a new email
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(
       existingUser.email,
@@ -51,20 +55,24 @@ export const login = async (
     return { success: "Confirmation email sent!" };
     }
     
-
+ 
+    // if user activated the 2factor settings
   if (existingUser.isTwoFactorEnabled && existingUser.email) {
     if (code) {
       const twoFactorToken = await getTwoFactorTokenByEmail(
         existingUser.email
       );
 
+
       if (!twoFactorToken) {
         return { error: "Invalid code!" };
       }
 
+
       if (twoFactorToken.token !== code) {
         return { error: "Invalid code!" };
       }
+
 
       const hasExpired = new Date(twoFactorToken.expires) < new Date();
 
@@ -72,10 +80,13 @@ export const login = async (
         return { error: "Code expired!" };
       }
 
+      // delet the old token
       await db.twoFactorToken.delete({
         where: { id: twoFactorToken.id }
       });
 
+
+      // confirm token
       const existingConfirmation = await getTwoFactorConfirmationByUserId(
         existingUser.id
       );
@@ -92,6 +103,8 @@ export const login = async (
         }
       });
     } else {
+ 
+      // send new token
       const twoFactorToken = await generateTwoFactorToken(existingUser.email)
       await sendTwoFactorTokenEmail(
         twoFactorToken.email,

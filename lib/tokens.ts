@@ -8,8 +8,13 @@ import { getPasswordResetTokenByEmail } from "@/services/password-reset-token-se
 import { getVerificationTokenByEmail } from "@/services/verification-token-service";
 
 export const generateTwoFactorToken = async (email: string) => {
+
+ 
+  // get a random number between 100,000 and 1,000,000
   const token = crypto.randomInt(100_000, 1_000_000).toString();
-  const expires = new Date(new Date().getTime() + 5 * 60 * 1000);
+
+  // expires after a minute
+  const expires = new Date(new Date().getTime() + 5 * 60 * 1_000);
 
   const existingToken = await getTwoFactorTokenByEmail(email);
 
