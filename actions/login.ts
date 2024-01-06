@@ -33,9 +33,9 @@ export const login = async (
 
   // getting data
   const { email, password, code } = validatedFields.data;
-
   // if user exists
   const existingUser = await getUserByEmail(email);
+  //console.log({ existingUser })
 
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Email does not exist!" }
@@ -122,6 +122,7 @@ export const login = async (
       redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     })
   } catch (error) {
+    //console.log({error})
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":

@@ -37,9 +37,11 @@ export const sendVerificationEmail = async (
   const confirmLink = `${domain}/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
-    from: "mail@authjs-tutorial.com",
+    from: "onboarding@resend.dev",
     to: email,
     subject: "Confirm your email",
     html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`
   });
+
+ // console.log("sntt")
 };
