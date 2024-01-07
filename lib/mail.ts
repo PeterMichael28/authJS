@@ -17,7 +17,7 @@ export const sendTwoFactorTokenEmail = async (
       <h2>AuthJS Tutorial 🔐</h2>
       <p>Your 2FA code: ${token}</p>
     </div>`
- await sendEmail(email, subject, body);
+ await sendEmail(body, subject, email);
 };
 
 export const sendPasswordResetEmail = async (
@@ -32,7 +32,7 @@ export const sendPasswordResetEmail = async (
       <p><p>Click <a href="${resetLink}">here</a> to reset password.</p></p>
     </div>`
 
-await sendEmail(email, subject, body);
+    await sendEmail(body, subject, email);
 };
 
 export const sendVerificationEmail = async (
@@ -47,5 +47,5 @@ export const sendVerificationEmail = async (
      </div>`
   
   
-     await sendEmail(email, subject, body);
+     await sendEmail(body, subject, email);
 };
