@@ -1,33 +1,38 @@
-import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+import {sendEmail} from './nodemailer'
+
+
 
 const domain = process.env.NEXT_PUBLIC_APP_URL;
+
+
 
 export const sendTwoFactorTokenEmail = async (
  email: string,
  token: string,
 ) => {
- await resend.emails.send({
-  from: 'onboarding@resend.dev',
-  to: email,
-  subject: '2FA Code',
-  html: `<p>Your 2FA code: ${token}</p>`,
- });
+
+ const subject = `Your 2FA Code`;
+ const body = `<div>
+      <h2>AuthJS Tutorial 🔐</h2>
+      <p>Your 2FA code: ${token}</p>
+    </div>`
+ await sendEmail(email, subject, body);
 };
 
 export const sendPasswordResetEmail = async (
  email: string,
  token: string,
 ) => {
- const resetLink = `${domain}/auth/new-password?token=${token}`;
+  
+  const resetLink = `${domain}/auth/new-password?token=${token}`;
+  const subject = `Reset your password`;
+ const body = `<div>
+      <h2>AuthJS Tutorial 🔐</h2>
+      <p><p>Click <a href="${resetLink}">here</a> to reset password.</p></p>
+    </div>`
 
- await resend.emails.send({
-  from: 'onboarding@resend.dev',
-  to: email,
-  subject: 'Reset your password',
-  html: `<p>Click <a href="${resetLink}">here</a> to reset password.</p>`,
- });
+await sendEmail(email, subject, body);
 };
 
 export const sendVerificationEmail = async (
@@ -35,13 +40,12 @@ export const sendVerificationEmail = async (
   token: string
 ) => {
   const confirmLink = `${domain}/auth/new-verification?token=${token}`;
-
-  await resend.emails.send({
-    from: "onboarding@resend.dev",
-    to: email,
-    subject: "Confirm your email",
-    html: `<p>Click <a href="${confirmLink}">here</a> to confirm email.</p>`
-  });
-
- // console.log("sntt")
+  const subject = `Confirm your email`;
+  const body = `<div>
+       <h2>AuthJS Tutorial 🔐</h2>
+       <p>Click <a href="${confirmLink}">here</a> to confirm email.</p>
+     </div>`
+  
+  
+     await sendEmail(email, subject, body);
 };
