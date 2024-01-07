@@ -31,7 +31,7 @@ export default {
             password,
             user.password,
           );
-console.log({passwordsMatch})
+//console.log({passwordsMatch})
           if (passwordsMatch) return user;
         }
 
